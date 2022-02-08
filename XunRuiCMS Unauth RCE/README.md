@@ -24,5 +24,5 @@ python3 xunrui_cms_unauth_RCE.py http://localhost calc.exe
 
 ### 漏洞分析
 
-
+https://www.cnsuc.net/thread-82.htm
 
