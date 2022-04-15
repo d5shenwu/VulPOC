@@ -24,7 +24,7 @@
 
 没有密码问题的用户，会得到这样的提示
 
-![img](https://gitee.com/N0puple/nopic/raw/master/img/20210628212228.png)
+![img](https://img-blog.csdnimg.cn/img_convert/64261d51d635fdc7b88c8f809d2d0e62.png)
 
 不要紧，重来并用burp 抓包，更改 post 数据
 
@@ -42,7 +42,7 @@ dopost=safequestion&id=2&safequestion=00&safeanswer=0
 
 id 为 想要更改的用户账号 id，发包即可
 
-![img](https://gitee.com/N0puple/nopic/raw/master/img/20210628212956.png)
+![img](https://img-blog.csdnimg.cn/img_convert/da714103f3932d9b046d9d93f455c41a.png)
 
 
 
@@ -59,3 +59,4 @@ id 为 想要更改的用户账号 id，发包即可
 `github` 链接：`https://github.com/N0puple/vulPOC`
 
 获取文中环境可以关注公众号 “安全漏洞复现”，回复 “漏洞环境”
+
