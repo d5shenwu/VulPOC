@@ -1,0 +1,8 @@
+version: '3'
+services:
+  web:
+    image: n0puple/moodle:3.11.0
+    command: bash -c "service mysql start && service apache2 start && /bin/bash"
+    ports:
+      - "80:80"
+    tty: true
