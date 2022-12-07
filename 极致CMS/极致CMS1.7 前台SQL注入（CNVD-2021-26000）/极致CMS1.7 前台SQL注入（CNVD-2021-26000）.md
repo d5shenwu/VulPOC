@@ -235,11 +235,5 @@ CDN-SRC-IP: 127.0.0.1' or updatexml(1,concat(0x7e,database(),0x7e),0) or '
 
 https://github.com/N0puple/vulPOC
 
-### 公众号
 
-公众号搜索：安全漏洞复现
-
-扫码持续关注：
-
-![](https://gitee.com/N0puple/picgo/raw/master/img/qrcode_for_gh_a41358b842dd_430.jpg)
 

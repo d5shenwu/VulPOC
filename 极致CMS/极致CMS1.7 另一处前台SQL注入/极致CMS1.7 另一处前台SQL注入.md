@@ -190,10 +190,3 @@ public function query($sql){
 
 https://github.com/N0puple/vulPOC
 
-### 公众号
-
-公众号搜索：安全漏洞复现
-
-扫码持续关注：
-
-![](https://gitee.com/N0puple/picgo/raw/master/img/qrcode_for_gh_a41358b842dd_430.jpg)
