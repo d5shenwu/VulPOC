@@ -47,5 +47,5 @@ publicid=1&is_ajax=1&uid[0]=exp&uid[1]=)%20and%20updatexml(1,concat(0x7e,md5(%27
 
 `github` 链接：`https://github.com/N0puple/vulPOC`
 
-想要获取更多资讯，或者获取文中环境可以关注公众号 “安全漏洞复现”，回复 “漏洞环境”
+
 
