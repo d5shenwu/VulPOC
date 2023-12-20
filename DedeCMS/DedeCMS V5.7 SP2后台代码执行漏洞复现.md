@@ -40,7 +40,7 @@ http://www.dedecms521.com/dede/tpl.php?filename=secnote.lib.php&action=savetagfi
 http://www.dedecms521.com/include/taglib/secnote.lib.php
 ```
 
-![img](https://gitee.com/N0puple/nopic/raw/master/img/image-20210626220121525.png)
+![img](https://gitee.com/d5shenwu/nopic/raw/master/img/image-20210626220121525.png)
 
 ## 总结
 
@@ -64,5 +64,5 @@ http://www.dedecms521.com/include/taglib/secnote.lib.php
 
 
 
-`github` 链接：`https://github.com/N0puple/vulPOC`
+`github` 链接：`https://github.com/d5shenwu/vulPOC`
 

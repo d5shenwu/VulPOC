@@ -213,5 +213,5 @@ if __name__ == '__main__':
 
 - https://wiki.bylibrary.cn/%E6%BC%8F%E6%B4%9E%E5%BA%93/01-CMS%E6%BC%8F%E6%B4%9E/DedeCMS/DedeCms%E5%90%8E%E5%8F%B0%E5%9C%B0%E5%9D%80%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E/
 
-`github` 链接：`https://github.com/N0puple/vulPOC`
+`github` 链接：`https://github.com/d5shenwu/vulPOC`
 

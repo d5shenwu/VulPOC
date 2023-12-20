@@ -45,7 +45,7 @@ publicid=1&is_ajax=1&uid[0]=exp&uid[1]=)%20and%20updatexml(1,concat(0x7e,md5(%27
 
 
 
-`github` 链接：`https://github.com/N0puple/vulPOC`
+`github` 链接：`https://github.com/d5shenwu/vulPOC`
 
 
 

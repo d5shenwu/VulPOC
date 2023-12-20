@@ -43,5 +43,5 @@ python3 xunrui_cms_unauth_RCE.py http://www.xunruicms.com calc.exe
 
 
 
-`github` 链接：`https://github.com/N0puple/vulPOC`
+`github` 链接：`https://github.com/d5shenwu/vulPOC`
 

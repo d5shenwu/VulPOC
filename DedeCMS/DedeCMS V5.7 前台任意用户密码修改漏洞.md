@@ -56,7 +56,7 @@ id 为 想要更改的用户账号 id，发包即可
 
 - `https://wiki.bylibrary.cn/漏洞库/01-CMS漏洞/DedeCMS/Dedecms 前台任意用户密码修改/`
 
-`github` 链接：`https://github.com/N0puple/vulPOC`
+`github` 链接：`https://github.com/d5shenwu/vulPOC`
 
 
 

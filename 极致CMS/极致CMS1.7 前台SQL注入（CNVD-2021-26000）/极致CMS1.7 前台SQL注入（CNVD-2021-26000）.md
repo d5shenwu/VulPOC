@@ -215,7 +215,7 @@ public function add($row)
 
 ## 0x03 漏洞复现
 
-![](https://gitee.com/N0puple/nopic/raw/master/img/20210705223529.png)
+![](https://gitee.com/d5shenwu/nopic/raw/master/img/20210705223529.png)
 
 很明显，可以报错注入，留个 `payload`
 
@@ -233,7 +233,7 @@ CDN-SRC-IP: 127.0.0.1' or updatexml(1,concat(0x7e,database(),0x7e),0) or '
 
 ### GitHub
 
-https://github.com/N0puple/vulPOC
+https://github.com/d5shenwu/vulPOC
 
 
 

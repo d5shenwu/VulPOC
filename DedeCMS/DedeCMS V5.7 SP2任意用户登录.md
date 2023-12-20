@@ -22,7 +22,7 @@ http://www.dedecms521.com/member/index.php?uid=0000001
 
 这里需要注意，要把  `cookie` 中的带 `last_` 的部分删掉，不然不会生成新的 `cookie` ，参数 `uid` 对应的是这个用户名
 
-![img](https://gitee.com/N0puple/nopic/raw/master/img/20210704180301.png)
+![img](https://gitee.com/d5shenwu/nopic/raw/master/img/20210704180301.png)
 
 将 `cookie` 中的 `DedeUserID` 设置为这里得到的 `cookie` 中的 `last_vid` ，`DedeUserID__ckMd5` 设置为这里得到的 `cookie` 中的 `last_vid`，再访问链接，即可发现成功访问到了另外的用户，这里是 `admin`
 
@@ -30,7 +30,7 @@ http://www.dedecms521.com/member/index.php?uid=0000001
 http://www.dedecms521.com/member/index.php
 ```
 
-![img](https://gitee.com/N0puple/nopic/raw/master/img/image-20210704180648323.png)
+![img](https://gitee.com/d5shenwu/nopic/raw/master/img/image-20210704180648323.png)
 
 ## 总结
 
@@ -44,5 +44,5 @@ http://www.dedecms521.com/member/index.php
 
 
 
-`github` 链接：`https://github.com/N0puple/vulPOC`
+`github` 链接：`https://github.com/d5shenwu/vulPOC`
 

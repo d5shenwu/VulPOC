@@ -3,7 +3,7 @@
 ## 0x00 漏洞环境
 
 ```
-https://github.com/N0puple/php-unserialize-lib
+https://github.com/d5shenwu/php-unserialize-lib
 ```
 
 进入对应的文件夹执行如下命令启动环境：
@@ -42,11 +42,11 @@ class TestController extends Controller
 
 使用 `laravel` 最常见的入口 `src/Illuminate/Broadcasting/PendingBroadcast.php::__destruct()` 
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220904144627.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220904144627.png)
 
 `$this->events` 与 `$this->event` 可控，找某个类的 `dispatch` 方法，这里找到 `src/Illuminate/Bus/Dispatcher.php::dispatch($command)` 
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220905205855.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220905205855.png)
 
 `$this->queueResolver` 与 `$command` 可控，我们进入 `$this->commandShouldBeQueued($command)` ，查看代码
 
@@ -59,11 +59,11 @@ protected function commandShouldBeQueued($command)
 
 因此需要传进来的 `$command` 是 `ShouldQueue` 的实例，而 `ShouldQueue` 是一个接口，因此只要是实现此接口的类的实例即可
 
- ![](https://gitee.com/N0puple/picgo/raw/master/img/20220905211326.png)
+ ![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220905211326.png)
 
 如上的都可以，此处选取 `BroadcastEvent`  类，然后进入 `$this->dispatchToQueue` 方法
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220905224039.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220905224039.png)
 
 `$connection` 为 `$command->connection` ，而 `$command` 是 `BroadcastEvent` 的实例，因此 `$connection` 可通过设置一个 `connection` 值来控制，而 `$this->queueResolver` 也是可控的，因此可以直接命令执行
 
@@ -71,15 +71,15 @@ protected function commandShouldBeQueued($command)
 
 开局依旧是 `src/Illuminate/Broadcasting/PendingBroadcast.php::__destruct()` ，然后以 `__call` 入手，这里使用的是 `src/Illuminate/Validation/Validator.php::__call()` ，我们看到这里的代码
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220905194557.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220905194557.png)
 
 `$method` 是传进来的方法名，值为 `dispatch` ，`$parameters` 可控，`$method` 进入 `Str::snake` 进行一定的转换，然后返回，这里我们不用看代码，直接让 `dispatch` 进入得到返回值即可，不影响结果
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220905195259.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220905195259.png)
 
 可以看到，返回的 `$rule` 为空，接下来 `$this->extensions` 可控，我们进入 `$this->callExtension` 方法，第一个参数为空字符串，第二个参数可控
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220905195450.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220905195450.png)
 
 这里写的很明了，`$this->extensions` 可控，`$parameters` 也可控，直接可进入 `call_user_func_array($callback, $parameters);` ，并且可以命令执行
 
@@ -96,17 +96,17 @@ public function __destruct()
 
 找到 `src/Illuminate/Bus/Dispatcher.php::dispatch($command)` 
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220905205855.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220905205855.png)
 
 进入 `dispatchToQueue` 方法
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220905224039.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220905224039.png)
 
 `$this->queueResolver` 可控，`$connection` 由 `$command` 得到，`$command` 也是可控的，因此都是可控的，因此可以执行任意类，我们找到如下位置
 
 `Mockery\Loader\EvalLoader::load(MockDefinition $definition)` 
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220919143348.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220919143348.png)
 
 在这里，很容易知道，我们要找到一个 `MockDefinition` 的实例化对象，接下来进入 `getClassName` 方法
 
@@ -134,7 +134,7 @@ public function getCode()
 
 通过 `exp.php` 生成 `payload` ，然后直接打
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220904151025.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220904151025.png)
 
 
 
@@ -146,9 +146,5 @@ public function getCode()
 
 ### GitHub
 
-https://github.com/N0puple/php-unserialize-lib
-
-### GitBook:
-
-https://n0puple.gitbook.io/php-unserialize-lib/
+https://github.com/d5shenwu/php-unserialize-lib
 

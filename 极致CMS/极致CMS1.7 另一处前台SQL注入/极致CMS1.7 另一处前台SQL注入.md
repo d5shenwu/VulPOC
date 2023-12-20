@@ -170,7 +170,7 @@ public function query($sql){
 
 ## 0x03 漏洞复现
 
-![](https://gitee.com/N0puple/nopic/raw/master/img/20210707234408.png)
+![](https://gitee.com/d5shenwu/nopic/raw/master/img/20210707234408.png)
 
 放两个 `payload`
 
@@ -188,5 +188,5 @@ public function query($sql){
 
 ### GitHub
 
-https://github.com/N0puple/vulPOC
+https://github.com/d5shenwu/vulPOC
 

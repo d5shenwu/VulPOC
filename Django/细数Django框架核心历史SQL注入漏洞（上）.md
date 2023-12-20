@@ -43,15 +43,15 @@ Collection.objects.filter(blog__author__extra='tom').all()
 
 此处我们选择 `JSONField` 进行分析，当 `blog` 字段为 `JSONField` 类型时，
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921171923.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921171923.png)
 
 `JSONField` 继承自 `Field` ，`Field` 又是继承 `RegisterLookupMixin` ，已经存在一个 `get_transform` 方法，此处由于获取方式不同，因此重写该方法，之后是返回了一个 `KeyTransformFactory(name)` ，接下来看看这里的代码
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/image-20220921173225909.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/image-20220921173225909.png)
 
 直接被调用时，又会触发 `KeyTransform(self.key_name, *args, **kwargs)`
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921173335.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921173335.png)
 
 在这里，最后会被执行 `as_sql` 方法，目的是生成 `sql` 语句，但是这里的 `self.key_name` 没有经过任何过滤就被拼接并直接返回，因此造成了注入。
 
@@ -61,11 +61,11 @@ Collection.objects.filter(blog__author__extra='tom').all()
 
 如下所示，`Collections` 就是在 `model` 中使用了 `JSONField` 
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921153333.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921153333.png)
 
 代码和细节如下
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921153819.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921153819.png)
 
 此处的 `detail` 使用了 `JSONField` ，访问链接即可触发漏洞
 
@@ -73,7 +73,7 @@ Collection.objects.filter(blog__author__extra='tom').all()
 http://your-ip:8000/admin/vuln/collection/?detail__a%27b=123
 ```
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921154135.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921154135.png)
 
 
 
@@ -95,7 +95,7 @@ http://your-ip:8000/admin/vuln/collection/?detail__a%27b=123
 
 先来看到 `github` 上的代码比对
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921230809.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921230809.png)
 
 这里说明两点问题，第一， `delimter` 参数没有经过过滤就传入，第二，`delimter` 会直接进行字符串拼接，因此也是导致了存在 `SQL` 注入漏洞的原因。
 
@@ -161,7 +161,7 @@ urlpatterns = [
 
 最后可以得到如下 `poc`
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921231943.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921231943.png)
 
 
 
@@ -183,7 +183,7 @@ urlpatterns = [
 
 首先看 `github` 的分析  `https://github.com/django/django/commit/fe886a3b58a93cfbe8864b485f93cb6d426cd1f2`
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921205621.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921205621.png)
 
 这里修补了两处漏洞，都是同一个参数 `tolerance` 引起的，看到这里会觉得还比较简单，直接从 `self.extra` 中获取到参数，直接进行拼接，得到最后的 `sql` 代码，`as_oracle` 方法，就是得到的 `oracle` 的 `sql` 代码，也就是这个漏洞应该只存在于使用 `oracle` 数据库时
 
@@ -193,11 +193,11 @@ urlpatterns = [
 
 位于 `django\contrib\gis\db\models\aggregates.py`
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921210237.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921210237.png)
 
 此类继承于 `django.db.models.aggregates.Aggregate` ，然后下面这个 `Union` 类又继承 `GeoAggregate` 
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921210544.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921210544.png)
 
 因此可以通过使用 `GIS` 中的 `Union` 类来触发第一个漏洞
 
@@ -205,15 +205,15 @@ urlpatterns = [
 
 位于 `django\contrib\gis\db\models\functions.py`
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921211016.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921211016.png)
 
 这里逻辑也是一样，没有任何过滤，接下来就是去找可以直接调用这里的位置，也就是找继承的位置，可以找到下面这个 `Distance`
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921211202.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921211202.png)
 
 至于接下来该如何去直接使用这两个类，可以查看官方文档，这里我直接看的 `vulhub` 中的
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220921211336.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220921211336.png)
 
 ### 漏洞复现
 
@@ -225,7 +225,7 @@ urlpatterns = [
 http://127.0.0.1:8000/vuln/q=?20) = 1 OR (select utl_inaddr.get_host_name((SELECT version FROM v$instance)) from dual) is null OR (1-1
 ```
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/image-20220921212748553.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/image-20220921212748553.png)
 
 第二处 `payload`
 
@@ -233,7 +233,7 @@ http://127.0.0.1:8000/vuln/q=?20) = 1 OR (select utl_inaddr.get_host_name((SELEC
 http://127.0.0.1:8000/vuln2/q=?0.05))) FROM "VULN_COLLECTION2" where (select utl_inaddr.get_host_name((SELECT user FROM DUAL)) from dual) is not null --
 ```
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/image-20220921212404303.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/image-20220921212404303.png)
 
 
 
@@ -254,15 +254,15 @@ http://127.0.0.1:8000/vuln2/q=?0.05))) FROM "VULN_COLLECTION2" where (select utl
 
 出现问题的点是在 `order_by` ，先搜索这个方法
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220922105526.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220922105526.png)
 
 首先 `clean_ordering` ，也就是将 `ordering` 置空
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/image-20220922105747504.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/image-20220922105747504.png)
 
 然后进行 `add_ordering`
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220922105840.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220922105840.png)
 
 想要将传进来的字段添加到 `order_by` ，需要经过一些验证
 
@@ -270,7 +270,7 @@ http://127.0.0.1:8000/vuln2/q=?0.05))) FROM "VULN_COLLECTION2" where (select utl
 
 处理带点号的代码位于文件 `django/db/models/sql/compiler.py `的 `get_order_by `函数中，核心代码如下
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220922162157.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220922162157.png)
 
 在这里对 `table` 进行了过滤，但是并没有对 `col` 进行过滤，因此造成了注入。
 
@@ -284,7 +284,7 @@ http://127.0.0.1:8000/vuln2/q=?0.05))) FROM "VULN_COLLECTION2" where (select utl
 http://127.0.0.1:8000/vuln/?order=aaa.tab'
 ```
 
-![](https://gitee.com/N0puple/picgo/raw/master/img/20220922163320.png)
+![](https://gitee.com/d5shenwu/picgo/raw/master/img/20220922163320.png)
 
 
 
@@ -292,7 +292,7 @@ http://127.0.0.1:8000/vuln/?order=aaa.tab'
 
 环境与 `poc` 都可以在如下链接获取
 
-https://github.com/N0puple/vulPOC
+https://github.com/d5shenwu/vulPOC
 
 ### 参考链接
 
